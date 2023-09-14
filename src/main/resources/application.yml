@@ -1,0 +1,97 @@
+spring:
+  #静态资源处理
+  resources:
+    web:
+    #启用默认静态资源处理
+      add-mappings: true
+      cache:
+        cachecontrol:
+          max-age: 3600
+      chain:
+        cacge: true
+        enabled: true
+        compressed: true
+        html-application-cache: true
+      static-locations: classpath:/static
+
+
+  thymeleaf:
+    cache: false
+
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    #超时时间
+    timeout: 10000ms
+    lettuce:
+      pool:
+        #最大连接数
+        max-active: 8
+        #最大连接阻塞等待时间，默认-1
+        max-wait: 10000ms
+        #最大空闲连接，默认8
+        max-idle: 200
+        #最小空闲连接，默认0
+        min-idle: 5
+  rabbitmq:
+    host: localhost
+    username: snow
+    password: wxc1593570
+    virtual-host: /
+    port: 5672
+    listener:
+      simple:
+        #消费者最小数量
+        concurrency: 10
+        #消费者最大数量
+        max-concurrency: 10
+        #限制消费者每次只处理一条消息，处理完这个再处理下一条消息
+        prefetch:
+        auto-startup: true
+        #当你的消息被拒绝时，是否重新进入队列
+        default-requeue-rejected: true
+    template:
+      retry:
+        enabled: true
+        #重试时间默认1000ms
+        initial-interval: 1000ms
+        #重试默认次数
+        max-attempts: 3
+        #充实默认最大间隔时间
+        max-interval: 1000ms
+        #重试间隔乘数，比如第一次重试等10秒，第二次20秒，第三次40秒
+        multiplier: 1
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/seckill
+    username: root
+    password: wxc1593570
+    hikari:
+      pool-name: DateHikariCP
+      #???????
+      minimum-idle: 5
+      #??????????
+      idle-timeout: 170000
+      #?????
+      maximum-pool-size: 10
+      #?????????????
+      auto-commit: true
+      #????????
+      max-lifetime: 180000
+      #??????
+      connection-timeout: 30000
+      #?????????????
+      connection-test-query: SELECT 1
+
+
+mybatis-plus:
+  #??Mapper.xml
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  #??Mybais????????
+  type-aliases-package: com.xue.secondkill.entity
+
+logging:
+  level:
+    con.xue.seckill.mapper: debug
